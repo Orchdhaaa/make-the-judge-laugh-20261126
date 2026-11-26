@@ -7,12 +7,16 @@ const outDir =
   process.env.MAKEFUN_OUTPUT_DIR || process.env.OUTPUT_DIR || "/output";
 const outFile = `${outDir}/entry.txt`;
 
+const MAX_CHARS = 200;
 const codePoints = [...LINE].length;
-if (codePoints < 1 || codePoints > 200) {
-  throw new Error(`line is ${codePoints} code points, gate is 1-200`);
+if (codePoints < 1 || codePoints > MAX_CHARS) {
+  throw new Error(`line is ${codePoints} code points, gate is 1-${MAX_CHARS}`);
 }
 if (LINE.trim().length === 0) {
   throw new Error("line is whitespace only");
+}
+if (LINE !== LINE.trim()) {
+  throw new Error("line must not start or end with whitespace");
 }
 if (LINE.includes("\n") || LINE.includes("\r")) {
   throw new Error("line must be a single line");
